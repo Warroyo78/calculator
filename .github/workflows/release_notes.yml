@@ -1,0 +1,32 @@
+name: Generate Release Notes
+on:
+  push:
+    branches:
+      - main # Adjust to your main branch name
+
+jobs:
+  release-notes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate Release Notes
+        id: release-notes
+        run: |
+          # Add a script or command here to generate release notes
+          # Store the output in a file (e.g., release_notes.txt)
+          echo "Release notes for this version" > release_notes.txt
+          echo "- Feature 1" >> release_notes.txt
+          echo "- Bugfix 1" >> release_notes.txt
+        shell: bash
+
+      - name: Create Release
+        id: create-release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            release_notes.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
